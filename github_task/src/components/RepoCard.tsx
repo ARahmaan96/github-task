@@ -1,10 +1,14 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
 import useColors from '../config/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import RepositoryIcon from '../assets/icons/RepositoryIcon';
 
-const RepoCard = () => {
+interface IProps {
+  style?: StyleProp<ViewStyle>;
+}
+
+const RepoCard = ({style}: IProps) => {
   const colors = useColors();
   const styles = StyleSheet.create({
     container: {
@@ -40,7 +44,7 @@ const RepoCard = () => {
       color: colors.TextSecondary,
     },
     star_count: {
-      fontSize: 20,
+      fontSize: 18,
       paddingHorizontal: 12,
       paddingVertical: 7,
       marginLeft: 10,
@@ -82,7 +86,7 @@ const RepoCard = () => {
   });
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       {/* Title  */}
       <View style={styles.title}>
         <Text style={styles.title_name}>Trending Repository</Text>
