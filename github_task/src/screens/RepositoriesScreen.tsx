@@ -71,6 +71,7 @@ const RepositoriesScreen = () => {
 
   const {data, error, isLoading} = useQuery<Repository[], Error>({
     queryKey: ['repositories', perPage, lang, formattedDate],
+    staleTime: 60000,
     queryFn: () =>
       fetchRepositories({perPage, language: lang, date: formattedDate}),
   });

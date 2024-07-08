@@ -44,14 +44,13 @@ const ExploreScreen = () => {
     setSelectedLength(value);
   };
 
-  // api
   const perPage = parseInt(selectedLength.split(' ')[1], 10);
 
   const {data, error, isLoading} = useQuery<Repository[], Error>({
-    queryKey: ['repositories', perPage], // Pass an array as the query key
+    queryKey: ['repositories', perPage],
     queryFn: () => fetchRepositories({perPage}),
+    staleTime: 60000,
   });
-
   return (
     <View style={styles.screen}>
       {/* Header */}
