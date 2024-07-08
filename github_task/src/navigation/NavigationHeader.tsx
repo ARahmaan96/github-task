@@ -1,6 +1,6 @@
 import {StackActions, useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {Button, Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import Routes from '../config/routes';
 import useColors from '../config/colors';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
