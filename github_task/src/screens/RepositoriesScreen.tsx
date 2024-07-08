@@ -36,6 +36,7 @@ const RepositoriesScreen = () => {
       flex: 1,
       paddingHorizontal: 20,
       gap: 10,
+      backgroundColor: colors.BackgroundPrimary,
     },
     title: {
       fontSize: 25,

@@ -1,10 +1,12 @@
+import 'react-native-gesture-handler';
+
 import React from 'react';
 
 import {StyleSheet} from 'react-native';
 import Screen from './components/common/Screen';
 
 import useColors from './config/colors';
-import RepositoriesScreen from './screens/RepositoriesScreen';
+import MainNavigation from './navigation/MainNavigation';
 
 const App = () => {
   // TODO: Load Colors From LocalStorage
@@ -19,7 +21,7 @@ const App = () => {
 
   return (
     <Screen style={styles.container}>
-      <RepositoriesScreen />
+      <MainNavigation />
     </Screen>
   );
 };

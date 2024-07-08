@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {FlatList, Text} from 'react-native';
 import {StyleSheet, View} from 'react-native';
 import useColors from '../config/colors';
-import RNPickerSelect from 'react-native-picker-select';
+// import RNPickerSelect from 'react-native-picker-select';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import RepoCard from '../components/RepoCard';
 
@@ -13,6 +13,7 @@ const ExploreScreen = () => {
     screen: {
       paddingHorizontal: 20,
       flex: 1,
+      backgroundColor: colors.BackgroundPrimary,
     },
     title: {
       fontSize: 25,
@@ -84,7 +85,7 @@ const ExploreScreen = () => {
       {/* Picker */}
       <View style={styles.picker_container}>
         <Text style={styles.picker_lable}>View:</Text>
-        <RNPickerSelect
+        {/* <RNPickerSelect
           value={selectedLength}
           onValueChange={handleValueChange}
           items={[
@@ -95,7 +96,7 @@ const ExploreScreen = () => {
           ]}
           style={pickerSelectStyles}
           Icon={pickerIcon}
-        />
+        /> */}
       </View>
       {/* Repos */}
       <View style={styles.repos_container}>
