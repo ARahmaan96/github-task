@@ -63,8 +63,8 @@ const RepoCard = ({style, repo}: IProps) => {
       fontSize: 20,
       color: colors.TextPrimary,
     },
-    // Discription Container
-    discription_container: {
+    // Description Container
+    description_container: {
       paddingVertical: 25,
       borderBottomWidth: 1,
       borderColor: colors.boderSecondary,
@@ -86,6 +86,21 @@ const RepoCard = ({style, repo}: IProps) => {
     },
   });
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toDateString();
+  };
+
+  const formatStarCount = (count: number) => {
+    if (count >= 1000000) {
+      return `${(count / 1000000).toFixed(1)}M`;
+    } else if (count >= 1000) {
+      return `${(count / 1000).toFixed(1)}K`;
+    } else {
+      return count.toString();
+    }
+  };
+
   return (
     <View style={[styles.container, style]}>
       {/* Title  */}
@@ -94,7 +109,9 @@ const RepoCard = ({style, repo}: IProps) => {
         <View style={styles.star_container}>
           <Icon name="star-o" size={25} color={colors.icon} />
           <Text style={styles.star_sub}>Star</Text>
-          <Text style={styles.star_count}>20K</Text>
+          <Text style={styles.star_count}>
+            {formatStarCount(repo.stargazers_count)}
+          </Text>
         </View>
       </View>
       {/* Name */}
@@ -104,17 +121,18 @@ const RepoCard = ({style, repo}: IProps) => {
           {repo.name}
         </Text>
       </View>
-      {/* Discription */}
-      <View style={styles.discription_container}>
+      {/* Description */}
+      <View style={styles.description_container}>
         <Text numberOfLines={2} style={styles.description_text}>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry’s.
+          {repo.description || 'No description available.'}
         </Text>
       </View>
       {/* Footer Section */}
       <View style={styles.footer_section}>
-        <Text style={styles.footer_text}>Updated 12 hours ago</Text>
-        <Text style={styles.footer_text}>CSS</Text>
+        <Text style={styles.footer_text}>
+          Updated {formatDate(repo.updated_at)}
+        </Text>
+        <Text style={styles.footer_text}>{repo.language || 'Unknown'}</Text>
       </View>
     </View>
   );
