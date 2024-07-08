@@ -8,4 +8,5 @@ export default {
   TextPrimary: '#fff',
   TextSecondary: '#fff',
   boderSecondary: '#DDDDDD',
+  overlay: '#fff5',
 };

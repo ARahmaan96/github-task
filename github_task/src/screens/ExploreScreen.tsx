@@ -8,6 +8,7 @@ import RepoCard from '../components/RepoCard';
 
 const ExploreScreen = () => {
   const colors = useColors();
+
   const styles = StyleSheet.create({
     screen: {
       paddingHorizontal: 20,
@@ -101,7 +102,7 @@ const ExploreScreen = () => {
         <FlatList
           showsVerticalScrollIndicator={false}
           data={[1, 2, 3, 4, 5]}
-          renderItem={item => <RepoCard style={styles.repo_custom_style} />}
+          renderItem={() => <RepoCard style={styles.repo_custom_style} />}
           keyExtractor={item => item.toString()}
         />
       </View>

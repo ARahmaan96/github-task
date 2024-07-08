@@ -4,7 +4,7 @@ import {StyleSheet} from 'react-native';
 import Screen from './components/common/Screen';
 
 import useColors from './config/colors';
-import ExploreScreen from './screens/ExploreScreen';
+import RepositoriesScreen from './screens/RepositoriesScreen';
 
 const App = () => {
   // TODO: Load Colors From LocalStorage
@@ -19,7 +19,7 @@ const App = () => {
 
   return (
     <Screen style={styles.container}>
-      <ExploreScreen />
+      <RepositoriesScreen />
     </Screen>
   );
 };
