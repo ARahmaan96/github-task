@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import {FlatList, Text} from 'react-native';
-import {StyleSheet, View} from 'react-native';
+import {FlatList, Text, StyleSheet, View} from 'react-native';
 import useColors from '../config/colors';
 import RepoCard from '../components/RepoCard';
 import PickerButton from '../components/common/PickerButton';
 import CountPicker from '../components/CountPicker';
+import {useQuery} from '@tanstack/react-query';
+import {fetchRepositories} from '../api/repository';
 
 const ExploreScreen = () => {
   const colors = useColors();
@@ -42,6 +43,15 @@ const ExploreScreen = () => {
     setIsShowSelectedLength(s => !s);
     setSelectedLength(value);
   };
+
+  // api
+  const perPage = parseInt(selectedLength.split(' ')[1], 10);
+
+  const {data, error, isLoading} = useQuery<Repository[], Error>({
+    queryKey: ['repositories', perPage], // Pass an array as the query key
+    queryFn: () => fetchRepositories({perPage}),
+  });
+
   return (
     <View style={styles.screen}>
       {/* Header */}
@@ -57,12 +67,18 @@ const ExploreScreen = () => {
       {isShowselectedLength && <CountPicker onChange={handleValueChange} />}
       {/* Repos */}
       <View style={styles.repos_container}>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={[1, 2, 3, 4, 5]}
-          renderItem={() => <RepoCard style={styles.repo_custom_style} />}
-          keyExtractor={item => item.toString()}
-        />
+        {isLoading && <Text>Loading...</Text>}
+        {error && <Text>Error: {error.message}</Text>}
+        {!isLoading && !error && (
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={data}
+            renderItem={({item}) => (
+              <RepoCard style={styles.repo_custom_style} repo={item} />
+            )}
+            keyExtractor={item => item.id.toString()}
+          />
+        )}
       </View>
     </View>
   );

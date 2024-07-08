@@ -8,29 +8,17 @@ import RNDateTimePicker, {
 import formatDate from '../utils/date';
 import LanguagesPicker from '../components/LanguagesPicker';
 import PickerButton from '../components/common/PickerButton';
+import {useQuery} from '@tanstack/react-query';
+import {fetchRepositories} from '../api/repository';
 
 const RepositoriesScreen = () => {
   const colors = useColors();
 
   const [date, setDate] = useState<Date>(new Date());
   const [lang, setLang] = useState<string>('Any');
-
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showLangPicker, setShowLangPicker] = useState(false);
 
-  const onDatePickerChange = (
-    event: DateTimePickerEvent,
-    selectedDate: Date | undefined,
-  ) => {
-    const currentDate = selectedDate || date;
-    setShowDatePicker(s => !s);
-    setDate(currentDate);
-  };
-  const onLangPickerChange = (language: {name: string} | null): void => {
-    const currentLang = language?.name || lang;
-    setShowLangPicker(s => !s);
-    setLang(currentLang);
-  };
   const styles = StyleSheet.create({
     screen: {
       flex: 1,
@@ -62,10 +50,36 @@ const RepositoriesScreen = () => {
     },
   });
 
+  const handleDateChange = (
+    event: DateTimePickerEvent,
+    selectedDate?: Date,
+  ) => {
+    const currentDate = selectedDate || date;
+    setShowDatePicker(false);
+    setDate(currentDate);
+  };
+
+  const handleLangChange = (language: {name: string} | null) => {
+    const currentLang = language?.name || 'Any';
+    setShowLangPicker(false);
+    setLang(currentLang);
+  };
+
+  // API Call
+  const perPage = 10; // Adjust as needed
+  const formattedDate = formatDate(date); // Format date as needed for API call
+
+  const {data, error, isLoading} = useQuery<Repository[], Error>({
+    queryKey: ['repositories', perPage, lang, formattedDate],
+    queryFn: () =>
+      fetchRepositories({perPage, language: lang, date: formattedDate}),
+  });
+
   return (
     <View style={styles.screen}>
       {/* Header */}
       <Text style={styles.title}>Repositories</Text>
+
       {/* Pickers Section */}
       <View style={styles.pickers_container}>
         <PickerButton
@@ -78,30 +92,37 @@ const RepositoriesScreen = () => {
           style={styles.date_picker}
           lable="Date"
           title={formatDate(date)}
-          onPress={() => setShowDatePicker(s => !s)}
+          onPress={() => setShowDatePicker(true)}
         />
       </View>
+
       {/* Date Picker */}
       {showDatePicker && (
         <RNDateTimePicker
           mode="date"
           value={date}
           display="default"
-          accentColor="#fff"
-          onChange={onDatePickerChange}
+          onChange={handleDateChange}
         />
       )}
+
       {/* Lang Picker */}
-      {showLangPicker && <LanguagesPicker onChange={onLangPickerChange} />}
+      {showLangPicker && <LanguagesPicker onChange={handleLangChange} />}
 
       {/* Repos Section */}
       <View style={styles.repos_container}>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={[1, 2, 3, 4, 5]}
-          renderItem={() => <RepoCard style={styles.repo_custom_style} />}
-          keyExtractor={item => item.toString()}
-        />
+        {isLoading && <Text>Loading...</Text>}
+        {error && <Text>Error: {error.message}</Text>}
+        {!isLoading && !error && (
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={data}
+            renderItem={({item}) => (
+              <RepoCard style={styles.repo_custom_style} repo={item} />
+            )}
+            keyExtractor={item => item.id.toString()}
+          />
+        )}
       </View>
     </View>
   );

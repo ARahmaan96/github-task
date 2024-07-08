@@ -7,6 +7,9 @@ import Screen from './components/common/Screen';
 
 import useColors from './config/colors';
 import MainNavigation from './navigation/MainNavigation';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 const App = () => {
   // TODO: Load Colors From LocalStorage
@@ -20,9 +23,11 @@ const App = () => {
   });
 
   return (
-    <Screen style={styles.container}>
-      <MainNavigation />
-    </Screen>
+    <QueryClientProvider client={queryClient}>
+      <Screen style={styles.container}>
+        <MainNavigation />
+      </Screen>
+    </QueryClientProvider>
   );
 };
 

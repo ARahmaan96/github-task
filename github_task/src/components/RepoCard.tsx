@@ -6,9 +6,10 @@ import RepositoryIcon from '../assets/icons/RepositoryIcon';
 
 interface IProps {
   style?: StyleProp<ViewStyle>;
+  repo: Repository;
 }
 
-const RepoCard = ({style}: IProps) => {
+const RepoCard = ({style, repo}: IProps) => {
   const colors = useColors();
   const styles = StyleSheet.create({
     container: {
@@ -100,7 +101,7 @@ const RepoCard = ({style}: IProps) => {
       <View style={styles.name_section}>
         <RepositoryIcon width={30} height={30} />
         <Text numberOfLines={1} style={styles.name_title}>
-          FortAwesome / Font-Awesome
+          {repo.name}
         </Text>
       </View>
       {/* Discription */}
