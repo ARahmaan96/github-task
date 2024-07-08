@@ -4,11 +4,14 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import Routes from '../config/routes';
 import useColors from '../config/colors';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
+import SettingModal from '../components/SettingModal';
 
 const NavigationHeader = () => {
   const [currentRoute, setCurrentRoute] = useState<string>(
     Routes.explore_screen,
   );
+
+  const [showSetting, setshowSetting] = useState(false);
 
   const navigation = useNavigation();
 
@@ -78,7 +81,13 @@ const NavigationHeader = () => {
           <Text style={styles.logo_text}>milango</Text>
         </View>
         {/* Setting Icon */}
-        <AntDesignIcon name="setting" size={35} />
+        <AntDesignIcon
+          name="setting"
+          size={30}
+          onPress={() => setshowSetting(true)}
+          color={colors.TextSecondary}
+        />
+        {showSetting && <SettingModal close={() => setshowSetting(false)} />}
       </View>
       {/* Navigation Bar */}
       <View style={styles.navigation_bar}>
