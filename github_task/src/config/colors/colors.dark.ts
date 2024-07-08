@@ -9,4 +9,5 @@ export default {
   TextSecondary: '#fff',
   boderSecondary: '#DDDDDD',
   overlay: '#fff5',
+  overlayDark: '#0009',
 };

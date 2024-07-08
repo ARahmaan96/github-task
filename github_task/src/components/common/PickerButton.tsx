@@ -39,7 +39,7 @@ const PickerButton = ({title, lable, style, onPress}: IProps) => {
       fontSize: 18,
       color: colors.TextSecondary,
     },
-    picker_icon: {},
+    picker_title: {color: colors.TextSecondary},
     // Repos Container
     repos_container: {
       flex: 1,
@@ -54,13 +54,9 @@ const PickerButton = ({title, lable, style, onPress}: IProps) => {
       <View style={[styles.picker_container, style]}>
         <Text style={styles.picker_lable}>{lable}:</Text>
 
-        <Text>{title}</Text>
-        <AntDesign
-          name="down"
-          size={20}
-          color={colors.TextSecondary}
-          style={styles.picker_icon}
-        />
+        <Text style={styles.picker_title}>{title}</Text>
+
+        <AntDesign name="down" size={20} color={colors.TextSecondary} />
       </View>
     </TouchableWithoutFeedback>
   );
